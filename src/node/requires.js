@@ -6,6 +6,7 @@ var createClass = require("superb-class").createClass,
     expressProxy = require("express-http-proxy"),
     expressCookieParser = require("cookie-parser"),
     handlebars = require("handlebars"),
+    https = require("https"),
     fs = require("fs"),
     path = require("path"),
     onceMany = require("once-many").onceMany,
@@ -13,4 +14,3 @@ var createClass = require("superb-class").createClass,
     glob = require("glob"),
     sane = require("sane"),
     childProcess = require("child_process");
-

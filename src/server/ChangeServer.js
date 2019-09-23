@@ -10,6 +10,8 @@ var ChangeServer = createClass({
 
     _connectedClients : null,
 
+    _httpsServer : null,
+
     /**
      * @type {number}
      */
@@ -25,10 +27,14 @@ var ChangeServer = createClass({
 
         this._express = express();
         this._express.get("/", this._storeRequest.bind(this));
+        this._httpsServer = https.createServer({
+            key: fs.readFileSync("/etc/apache2/ssl/dev.key", "utf8"),
+            cert: fs.readFileSync("/etc/apache2/ssl/dev.crt", "utf8")
+        }, this._express);
 
-        this._expressWs = expressWs(this._express);
+        this._expressWs = expressWs(this._express, this._httpsServer);
         this._express.ws("/", this._wsClientConnection.bind(this));
-
+        
         this._connectedClients = [];
     },
 
@@ -60,7 +66,7 @@ var ChangeServer = createClass({
      */
     run : function() {
         //console.log("Changes are served on port: " + chalk.cyan(this._port));
-        this._express.listen(this._port);
+        this._httpsServer.listen(this._port);
     },
 
     /**
@@ -91,4 +97,3 @@ var ChangeServer = createClass({
         });
     }
 });
-
