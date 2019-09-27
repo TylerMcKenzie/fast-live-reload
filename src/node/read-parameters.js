@@ -43,6 +43,18 @@ for (var i = 2; i < process.argv.length; i++) {
         continue;
     }
 
+    if ("--ssl-key" == arg) {
+        key = nextArgument(i, arg);
+        i++; // skip the next parameter
+        continue;
+    }
+
+    if ("--ssl-cert" == arg) {
+        cert = nextArgument(i, arg);
+        i++; // skip the next parameter
+        continue;
+    }
+
     if ("-p" == arg || "--port" == arg) {
         port = parseInt(nextArgument(i, arg));
         i++; // skip the next parameter
@@ -132,6 +144,15 @@ for (var i = 2; i < process.argv.length; i++) {
     }
 
     currentExecutor.addMonitoredPath(arg);
+}
+
+if (
+    key && !cert
+    || !key && cert
+) {
+    throw new Error("SSL requires a key and a cert to be provided.");    
+} else {
+    ssl = true;
 }
 
 if (!serveUri) {
