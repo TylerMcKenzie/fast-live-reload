@@ -81,7 +81,7 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
 
       function init() {
 
-        connection = new WebSocket('ws://' + host);
+        connection = new WebSocket('wss://' + host);
 
         connection.onopen = function () {
           // console.log('flr - connection established.');
@@ -123,4 +123,3 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
 
     loadUpdates();
 };
-
