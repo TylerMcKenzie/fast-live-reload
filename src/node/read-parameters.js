@@ -151,7 +151,7 @@ if (
     || !key && cert
 ) {
     throw new Error("SSL requires a key and a cert to be provided.");    
-} else {
+} else if (key && cert) {
     ssl = true;
 }
 
