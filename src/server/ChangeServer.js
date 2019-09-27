@@ -27,10 +27,19 @@ var ChangeServer = createClass({
 
         this._express = express();
         this._express.get("/", this._storeRequest.bind(this));
-        this._httpsServer = https.createServer({
-            key: fs.readFileSync("/etc/apache2/ssl/dev.key", "utf8"),
-            cert: fs.readFileSync("/etc/apache2/ssl/dev.crt", "utf8")
-        }, this._express);
+        
+        if (sslConfig) {
+            this._httpsServer = https.createServer({
+                key: fs.readFileSync(sslConfig.key, "utf8"),
+                cert: fs.readFileSync(sslConfig.cert, "utf8")
+            }, this._express);
+        }
+
+        if (this._httpsServer) {
+            this._expressWs = expressWs(this._express, this._httpsServer);
+        } else {
+            this._expressWs = expressWs(this._express);
+        }
 
         this._expressWs = expressWs(this._express, this._httpsServer);
         this._express.ws("/", this._wsClientConnection.bind(this));
