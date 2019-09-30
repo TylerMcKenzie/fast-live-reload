@@ -210,7 +210,6 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
     loadUpdates();
 };
 
-
 /**
  * IFrameSite - A website that is inside an iframe.
  * @return {void}

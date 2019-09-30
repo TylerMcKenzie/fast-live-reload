@@ -221,7 +221,6 @@ UpdateNotifier.prototype.requestUpdatesFromServer = function() {
 };
 
 
-
 new UpdateNotifier(null, function(data) {
     data = JSON.parse(data);
 
