@@ -22,7 +22,7 @@ var ChangeServer = createClass({
      * Defaults to 9001 if not present.
      * @param {number?} port The port to listen to.
      */
-    constructor : function(port) {
+    constructor : function(port, sslConfig) {
         this._port = port;
 
         this._express = express();
@@ -41,7 +41,6 @@ var ChangeServer = createClass({
             this._expressWs = expressWs(this._express);
         }
 
-        this._expressWs = expressWs(this._express, this._httpsServer);
         this._express.ws("/", this._wsClientConnection.bind(this));
         
         this._connectedClients = [];
@@ -75,7 +74,11 @@ var ChangeServer = createClass({
      */
     run : function() {
         //console.log("Changes are served on port: " + chalk.cyan(this._port));
-        this._httpsServer.listen(this._port);
+        if (this._httpsServer) {
+            this._httpsServer.listen(this._port);
+        } else {
+            this._express.listen(this._port);
+        }
     },
 
     /**

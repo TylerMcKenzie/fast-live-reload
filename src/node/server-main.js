@@ -5,8 +5,15 @@ var changeServer,
 var logIndex = 0,
     runningProcesses = [];
 
+var sslConfig = null;
+if (ssl) {
+    sslConfig = {};
+    sslConfig.key = key;
+    sslConfig.cert = cert;
+}
+
 if (!dryRun) {
-    changeServer = shouldCreateClientServer ? new ChangeServer(port) : noNotificationsChangeServer;
+    changeServer = shouldCreateClientServer ? new ChangeServer(port, sslConfig) : noNotificationsChangeServer;
 }
 
 var sentencePrefix = dryRun ? onceMany("Should ", "and should ") : onceMany("Will ", "and will ");

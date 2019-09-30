@@ -8,7 +8,10 @@ var serveUri,
     parallelExecutePrograms = [],
     dryRun = false,
     shouldCreateClientServer = true,
-    shouldInjectClientCode = true;
+    shouldInjectClientCode = true,
+    ssl = false,
+    key = false,
+    cert = false;
 
 //
 // Process the arguments.
